@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>BlackJack</title>
+  <meta name="description" content="Blackjack multijugador en el navegador: salas privadas con enlace, chat, varias mesas de casino y un zapato real para contar cartas.">
+  <meta name="theme-color" content="#2a1c14">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self' https: wss: ws://localhost:* http://localhost:* ws://127.0.0.1:* http://127.0.0.1:*; base-uri 'none'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='10' y='6' width='40' height='54' rx='6' fill='%23fbf8f1' stroke='%23c9a25a' stroke-width='3'/%3E%3Ctext x='30' y='44' font-size='30' text-anchor='middle' fill='%231b1b1f' font-family='Georgia'%3EA%3C/text%3E%3C/svg%3E">
+  <link rel="preload" href="fonts/limelight-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/vendor/peerjs.min.js" defer></script>
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <a class="skip" href="#home-actions">Saltar al menú</a>
+
+  <!-- Inicio -->
+  <section id="screen-home" class="screen home on">
+    <div class="home-felt">
+      <div class="home-inner">
+        <h1 class="logo">BlackJack</h1>
+        <p class="tagline">Un zapato de verdad, tu mesa y tus amigos a un enlace de distancia.</p>
+
+        <div class="home-name">
+          <label class="field">
+            <span class="field-label">Tu nombre en la mesa</span>
+            <input id="home-name" type="text" autocomplete="nickname" spellcheck="false">
+          </label>
+          <p id="name-hint" class="form-error" aria-live="polite"></p>
+        </div>
+
+        <div id="home-actions" class="home-actions">
+          <div class="home-col">
+            <button id="btn-solo" class="btn primary big" type="button">Jugar solo</button>
+            <p id="solo-bank" class="home-note"></p>
+          </div>
+          <div class="home-col">
+            <button id="btn-create" class="btn primary big" type="button">Crear sala privada</button>
+            <p class="home-note">Te damos un enlace para invitar a quien quieras.</p>
+          </div>
+          <form id="join-form" class="home-col join">
+            <label class="field">
+              <span class="field-label">¿Tienes un código?</span>
+              <span class="join-row">
+                <input id="join-code" type="text" maxlength="8" autocomplete="off" spellcheck="false" placeholder="K7Q2XM" aria-describedby="join-error">
+                <button class="btn ghost" type="submit">Unirse</button>
+              </span>
+            </label>
+            <p id="join-error" class="form-error" aria-live="polite"></p>
+          </form>
+        </div>
+
+        <nav class="home-links" aria-label="Más opciones">
+          <button id="btn-guide" class="link" type="button">Cómo se juega y cómo contar cartas</button>
+          <button id="btn-custom" class="link" type="button">Personalizar cartas y mesa</button>
+        </nav>
+      </div>
+      <div class="home-rail" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- Juego -->
+  <section id="screen-game" class="screen game" hidden>
+    <header class="topbar">
+      <span class="tb-logo">BlackJack</span>
+      <span class="tb-room"><strong id="tb-room"></strong> <span id="tb-mode" class="tb-mode"></span></span>
+      <span class="tb-spacer"></span>
+      <button id="tb-invite" class="btn ghost small" type="button">Invitar</button>
+      <button id="tb-guide" class="btn ghost small" type="button">Guía</button>
+      <button id="tb-custom" class="btn ghost small" type="button">Personalizar</button>
+      <button id="tb-side" class="btn ghost small tb-side" type="button" aria-expanded="false" aria-controls="side">Mesa y chat <span id="tb-side-badge" class="badge-count" hidden>0</span></button>
+      <button id="tb-leave" class="btn ghost small" type="button">Salir</button>
+    </header>
+    <main class="game-main">
+      <div id="stage-wrap" class="stage-wrap">
+        <div class="stage-box">
+          <div id="stage" class="stage" aria-label="Mesa de blackjack"></div>
+        </div>
+        <div id="rotate-hint" class="rotate-hint" hidden>
+          <p>La mesa se ve mejor con el móvil en horizontal.</p>
+          <button id="rotate-ok" class="btn ghost small" type="button">Entendido</button>
+        </div>
+      </div>
+      <aside class="side-wrap" aria-label="Sala, jugadores y chat">
+        <button id="side-close" class="side-close" type="button" aria-label="Cerrar panel">×</button>
+        <div id="side" class="side"></div>
+      </aside>
+    </main>
+    <footer id="dock" class="dock"></footer>
+  </section>
+
+  <div id="connecting" class="connecting" hidden>
+    <div class="connecting-box" role="status" aria-live="polite">
+      <span class="spinner" aria-hidden="true"></span>
+      <p id="connecting-text">Conectando…</p>
+      <button id="connecting-cancel" class="btn ghost small" type="button">Cancelar</button>
+    </div>
+  </div>
+
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+  <noscript><p class="noscript">BlackJack necesita JavaScript activado.</p></noscript>
+</body>
+</html>
